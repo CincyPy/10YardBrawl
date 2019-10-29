@@ -3,14 +3,14 @@ import time
 
 from lib.player import Player
 from lib.settings import Settings
-from lib.testgamestate import TestGameState
+from lib.gamestate_kickoff_return import KickoffReturnGameState
 
 pygame.init()
 screen = pygame.display.set_mode((Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 
 player = Player()
-current_gamestate = TestGameState(player)
+current_gamestate = KickoffReturnGameState(player)
 
 done = False
 while not done:
