@@ -13,7 +13,8 @@ class Player(object):
         self.ay = 0
 
         self.image = pygame.image.load("img/player.bmp").convert()
-
+        self.gamestate = None
+    
     def get_input(self, dt):
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_UP]:
@@ -24,6 +25,11 @@ class Player(object):
             self.ax = -.05
         if keystate[pygame.K_RIGHT]:
             self.ax = .05
+
+        if keystate[pygame.K_PAGEUP]:
+            self.gamestate.camera.scroll(-10, dt)
+        if keystate[pygame.K_PAGEDOWN]:
+            self.gamestate.camera.scroll(10, dt)
             
     def update(self, dt):
 
