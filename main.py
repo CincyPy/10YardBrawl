@@ -6,7 +6,7 @@ from lib.settings import Settings
 from lib.gamestate_kickoff_return import KickoffReturnGameState
 
 pygame.init()
-screen = pygame.display.set_mode((Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT))
+screen = pygame.display.set_mode((Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT), vsync=1)
 clock = pygame.time.Clock()
 
 player = Player()
@@ -15,8 +15,7 @@ current_gamestate = KickoffReturnGameState(player)
 done = False
 while not done:
     #timing
-    dt = clock.tick(60)
-    dt = dt / 10
+    dt = clock.tick(30)
     
     #input
     evtlst=pygame.event.get()
