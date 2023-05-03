@@ -12,6 +12,19 @@ class FieldMixin(object):
     - self.endzone_tile
     - self.camera
     """
+    
+    def get_yardline_y(self, yl):
+        """
+        converts the yardline, (-60[top] to 59[bottom] and, with the camera, finds the proper y coord
+        """
+        
+        total_y = (yl + 60) * (Settings.TILE_HEIGHT // Settings.YARDS_PER_TILE)
+        return total_y - self.camera.y
+        
+    def get_field_center_x(self):
+        return (Settings.FIELD_WIDTH_X // 2) + Settings.FIELD_X_OFFSET
+        
+    
     def get_row_yardlines(self, tile_y):
         yl1 = -60 + Settings.YARDS_PER_TILE * tile_y
         yl2 = yl1 + 1
@@ -19,6 +32,7 @@ class FieldMixin(object):
 
     def draw_field(self, screen):
         row = 0
+        
         for yy in range(-self.camera.y, Settings.FIELD_HEIGHT_Y, Settings.TILE_HEIGHT ):
             yardlines = self.get_row_yardlines(row)
             for xx in range(Settings.FIELD_X_OFFSET, Settings.FIELD_WIDTH_X, Settings.TILE_WIDTH): 
@@ -30,7 +44,7 @@ class FieldMixin(object):
                     screen.blit(self.endzone_tile, (xx,yy))
                 elif xx / Settings.TILE_WIDTH == Settings.LEFT_HASH_TILE_X:
                     screen.blit(self.yards_tile, (xx,yy))
-                elif xx/ Settings.TILE_WIDTH == Settings.RIGHT_HASH_TILE_X: 
+                elif xx / Settings.TILE_WIDTH == Settings.RIGHT_HASH_TILE_X: 
                     screen.blit(self.yards_tile, (xx,yy))
                 elif yardlines[0] % 5 == 0:
                     screen.blit(self.yards_line_2_tile, (xx,yy))
