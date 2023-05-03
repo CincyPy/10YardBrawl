@@ -18,6 +18,19 @@ class FieldMixin(object):
     - self.endzone_tile
     - self.camera
     """
+    
+    def get_yardline_y(self, yl):
+        """
+        converts the yardline, (-60[top] to 59[bottom] and, with the camera, finds the proper y coord
+        """
+        
+        total_y = (yl + 60) * (Settings.TILE_HEIGHT // Settings.YARDS_PER_TILE)
+        return total_y - self.camera.y
+        
+    def get_field_center_x(self):
+        return (Settings.FIELD_WIDTH_X // 2) + Settings.FIELD_X_OFFSET
+        
+    
     def get_row_yardlines(self, tile_y):
         """
         This method returns the yardlines for a given tile row.  So,
@@ -31,8 +44,8 @@ class FieldMixin(object):
         return [yl + x for x in range(0, Settings.YARDS_PER_TILE)]
 
     def draw_field(self, screen):
-        row = 0
-        for yy in range(int(-self.camera.y), Settings.FIELD_HEIGHT_Y, Settings.TILE_HEIGHT ):
+        row = 0 
+        for yy in range(-self.camera.y, Settings.FIELD_HEIGHT_Y, Settings.TILE_HEIGHT ):
             yardlines = self.get_row_yardlines(row)
             for xx in range(Settings.FIELD_X_OFFSET, Settings.FIELD_WIDTH_X, Settings.TILE_WIDTH): 
                 if yardlines[0] < -50:
